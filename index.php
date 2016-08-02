@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Test</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/css.css">
 </head>
 <body>
@@ -24,14 +25,34 @@
 	$first_student = new Student("Sergey", "Rodionov", 321702, 242,"girz298@gmail.com");
 
 	$second_student = new Student("Vanya", "Rodionov", 321702, 242,"vanya298@gmail.com");
+	// $second_student = new Student("Vanya", "Rodionov", 32170200, 242,"vanya298@gmail.com");
 
 	$studentMapper->insertStudent($first_student);
 	$studentMapper->insertStudent($second_student);
 
 	$arrOfStudentsByNameSergey = $studentMapper->getByName("Sergey");
-
-	var_dump($arrOfStudentsByNameSergey);
 	?>
+	<br>
+	<table cellpadding="5" cellspacing="0" border="2" width="100%" frame="border" align="center" ">
+		<caption>Список студентов</caption>
+		<th>Имя</th>
+		<th>Фамилия</th>
+		<th>Номер группы</th>
+		<th>Баллы</th>
+		<?php 
+		foreach ($arrOfStudentsByNameSergey as $key => $value) {
+		?>
+			<tr>
+				<td><?php echo $value["name"] ?></td>
+				<td><?php echo $value["surname"] ?></td>
+				<td><?php echo $value["group_number"] ?></td>
+				<td><?php echo $value["score"] ?></td>
+			</tr>
+		<?php  	
+		}
+		?>
+	</table>
+	
 
 	<div class="main-text">
 		<ul>

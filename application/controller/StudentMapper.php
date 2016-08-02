@@ -1,6 +1,7 @@
 <?php 
 error_reporting(-1);
 mb_internal_encoding("utf-8");
+
 class StudentMapper{
 	private $PDO;
 
@@ -20,7 +21,7 @@ class StudentMapper{
 
 	public function getByName($name){
 		try {
-			$STH = $this->PDO->query("SELECT * FROM students WHERE name='{$name}'")->fetchAll(PDO::FETCH_ASSOC);
+			$STH = $this->PDO->query("SELECT name,surname,group_number,score FROM students WHERE name='{$name}'")->fetchAll(PDO::FETCH_ASSOC);
 		} catch(PDOException $e) {
 			echo $e->getMessage()."\n";
 		}
