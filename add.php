@@ -29,7 +29,6 @@
 		</div>
 		
 		<?php
-		// DirectoryIndex index.php
 		error_reporting(-1);
 		mb_internal_encoding("utf-8");
 		
@@ -42,13 +41,6 @@
 
 		$studentMapper = new StudentMapper($pdo);
 
-		// $first_student = new Student("Sergey", "Rodionov", 321702, 242,"girz298@gmail.com");
-
-		// $second_student = new Student("Vanya", "Rodionov", 321702, 242,"vanya298@gmail.com");
-		// // $second_student = new Student("Vanya", "Rodionov", 32170200, 242,"vanya298@gmail.com");
-
-		// $studentMapper->insertStudent($first_student);
-		// $studentMapper->insertStudent($second_student);
 
 		if ($_POST["name"]) {
 			$arrOfStudentsByNameSergey = $studentMapper->getByName($_POST["name"]);
@@ -56,41 +48,8 @@
 			$arrOfStudentsByNameSergey = $studentMapper->getAllByPage(1);
 		}
 
-		
-
-		// echo $studentMapper->getCountOfPeoples();
-
-		// var_dump($_POST)
 		?>
-		<div class="row">
-			<div class="col-md-1">
-				<button type="submit" class="btn btn-primary btn-add-student">
-					<a href="/add.php">Добавить</a>
-				</button>
-			</div>
-			<div class="col-md-10">
-				<table class="table table-striped" cellpadding="5" cellspacing="0" width="100%" align="center">
-					<th>Имя</th>
-					<th>Фамилия</th>
-					<th>Номер группы</th>
-					<th>Баллы</th>
-					<?php 
-					foreach ($arrOfStudentsByNameSergey as $key => $value) {
-					?>
-						<tr>
-							<td><?php echo $value["name"] ?></td>
-							<td><?php echo $value["surname"] ?></td>
-							<td><?php echo $value["group_number"] ?></td>
-							<td><?php echo $value["score"] ?></td>
-						</tr>
-					<?php  	
-					}
-					?>
-				</table>
-			</div>
-			<div class="col-md-1"></div>
-		</div>
-	</div>
+		
 	</body>
 	<footer>
 		<script type="text/javascript" src="libs/jquery-3.1.0/jquery-3.1.0.min.js"></script>

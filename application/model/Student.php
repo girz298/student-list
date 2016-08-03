@@ -27,10 +27,6 @@ class Student{
 		return $this->name;
 	}
 
-	public function echoName(){
-		echo "{$this->name} \n";
-	}
-
 	public function setSurName($surname){
 		if(mb_strlen($surname) > 20){
 			throw new Exception("\nОШИБКА: Слишком длинная Фамилия!");		
@@ -42,10 +38,6 @@ class Student{
 
 	public function getSurName(){
 		return $this->surname;
-	}
-
-	public function echoSurName(){
-		echo "{$this->surname} \n";
 	}
 
 	public function setGroupNumber($group_number){
