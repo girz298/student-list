@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<form class="form-inline" action="/" role="form" method="post">
+				<form class="form-inline" action="/" role="form" method="get">
 					<div class="form-group">
 						<label for="search-by-name">Поиск:</label>
 						<input type="text" name ="name" class="form-control" id="search-by-name">
@@ -29,40 +29,32 @@
 		</div>
 		
 		<?php
-		// DirectoryIndex index.php
 		error_reporting(-1);
 		mb_internal_encoding("utf-8");
 		
 		include("application/model/Student.php");
 		include("application/controller/StudentMapper.php");
 		include("application/helpers/SingletonDatabase.php");
+		include("application/helpers/Pagination.php");
 
 		$dbs = SingletonDatabase::getInstance();
 		$pdo = $dbs->getPDOConnection();
 
 		$studentMapper = new StudentMapper($pdo);
 
-		if ($_POST["name_add"]){
+		if (isset($_POST["name_add"])){
 			$new_student = new Student($_POST["name_add"],$_POST["surname"],
 				(int)$_POST["group_number"],(int)$_POST["score"],$_POST["email"]);
-
 			$studentMapper->insertStudent($new_student);
 		}
 
-		if (null !== $_POST["name"]) {
-			$arrOfStudentsByNameSergey = $studentMapper->getByName($_POST["name"]);
+		if (isset($_GET["name"])) {
+			$arrOfStudentsByNameSergey = $studentMapper->getByName($_GET["name"]);
 		}else{
-			$arrOfStudentsByNameSergey = $studentMapper->getAllByPage(1);
-			// $arrOfStudentsByNameSergey = $studentMapper->getAll();
+			$arrOfStudentsByNameSergey = $studentMapper->
+			getAllByPage(isset($_GET["page"])?(int)$_GET["page"]:1);
 		}
 
-
-
-		
-
-		// echo $studentMapper->getCountOfPeoples();
-
-		// var_dump($_POST)
 		?>
 		<div class="row">
 			<div class="col-md-1">
@@ -101,7 +93,18 @@
 		</div>
 		<div class="row">
 			<div class="col-md-9"></div>
-			<div class="col-md-1"><?php echo "<h1>".$studentMapper->getCountOfPages()."</h1>"; ?></div>
+			<div class="col-md-2">
+		
+			<form class="form-inline" action="/" role="form" method="get">
+			<?php
+			if (!isset($_GET["name"])) {
+				$paginator  = new Paginator();
+				$paginator->makePager(isset($_GET["page"])?$_GET["page"]:1,
+					$studentMapper->getCountOfPages(),1,$studentMapper->getCountOfPages()-2);
+			}
+			?>
+			</form>
+			</div>
 			<div class="col-md-1"></div>
 		</div>
 	</div>

@@ -31,4 +31,8 @@ td {
 
 .btn-add-student a:hover{
 	color: white;
-};
+}
+
+.btn-page{
+	margin-left: 4px ;
+}

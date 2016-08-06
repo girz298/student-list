@@ -4,7 +4,7 @@ mb_internal_encoding("utf-8");
 
 class StudentMapper{
 	private $PDO;
-	private $countOnPage = 5;
+	private $countOnPage = 4;
 
 	public function __construct($PDO){
 		$this->PDO = $PDO;
