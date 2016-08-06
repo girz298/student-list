@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<form class="form-inline" action="index.php" role="form" method="post">
+				<form class="form-inline" action="/" role="form" method="post">
 					<div class="form-group">
 						<label for="search-by-name">Поиск:</label>
 						<input type="text" name ="name" class="form-control" id="search-by-name">
@@ -42,19 +42,21 @@
 
 		$studentMapper = new StudentMapper($pdo);
 
-		// $first_student = new Student("Sergey", "Rodionov", 321702, 242,"girz298@gmail.com");
+		if ($_POST["name_add"]){
+			$new_student = new Student($_POST["name_add"],$_POST["surname"],
+				(int)$_POST["group_number"],(int)$_POST["score"],$_POST["email"]);
 
-		// $second_student = new Student("Vanya", "Rodionov", 321702, 242,"vanya298@gmail.com");
-		// // $second_student = new Student("Vanya", "Rodionov", 32170200, 242,"vanya298@gmail.com");
+			$studentMapper->insertStudent($new_student);
+		}
 
-		// $studentMapper->insertStudent($first_student);
-		// $studentMapper->insertStudent($second_student);
-
-		if ($_POST["name"]) {
+		if (null !== $_POST["name"]) {
 			$arrOfStudentsByNameSergey = $studentMapper->getByName($_POST["name"]);
 		}else{
 			$arrOfStudentsByNameSergey = $studentMapper->getAllByPage(1);
+			// $arrOfStudentsByNameSergey = $studentMapper->getAll();
 		}
+
+
 
 		
 
@@ -64,16 +66,23 @@
 		?>
 		<div class="row">
 			<div class="col-md-1">
-				<button type="submit" class="btn btn-primary btn-add-student">
-					<a href="/add.php">Добавить</a>
-				</button>
+				<a href="add.php">
+					<button type="submit" class="btn btn-primary btn-add-student">
+						Добавить
+					</button>
+				</a>
 			</div>
-			<div class="col-md-10">
+			<!-- <div class="col-md-1">
+				<button type="submit" class="btn btn-danger btn-add-student">
+					<a href="delete.php">Удалить</a>
+				</button>
+			</div> -->
+			<div class="col-md-10 student-table">
 				<table class="table table-striped" cellpadding="5" cellspacing="0" width="100%" align="center">
-					<th>Имя</th>
-					<th>Фамилия</th>
-					<th>Номер группы</th>
-					<th>Баллы</th>
+					<th style="text-align: center;">Имя</th>
+					<th style="text-align: center;">Фамилия</th>
+					<th style="text-align: center;">Номер группы</th>
+					<th style="text-align: center;">Баллы</th>
 					<?php 
 					foreach ($arrOfStudentsByNameSergey as $key => $value) {
 					?>
@@ -88,6 +97,11 @@
 					?>
 				</table>
 			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-9"></div>
+			<div class="col-md-1"><?php echo "<h1>".$studentMapper->getCountOfPages()."</h1>"; ?></div>
 			<div class="col-md-1"></div>
 		</div>
 	</div>

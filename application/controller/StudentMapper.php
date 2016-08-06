@@ -4,6 +4,7 @@ mb_internal_encoding("utf-8");
 
 class StudentMapper{
 	private $PDO;
+	private $countOnPage = 5;
 
 	public function __construct($PDO){
 		$this->PDO = $PDO;
@@ -34,25 +35,38 @@ class StudentMapper{
 	}
 
 	public function getAllByPage($page){
-		if ($page == 1) {
-			$page = 0;
-		}
-		$page = $page*10;
+		// if ($page == 1) {
+		// 	$page = 0;
+		// }
+
+		
+
+		$page = ($page-1)*$this->countOnPage;
 		try {
 			$arrByPage = $this->PDO->query("SELECT name,surname,group_number,score 
-				FROM students LIMIT {$page},10")->fetchAll(PDO::FETCH_ASSOC);
+				FROM students LIMIT {$page},{$this->countOnPage}")->fetchAll(PDO::FETCH_ASSOC);
 		} catch(PDOException $e) {
 			// echo $e->getMessage()."\n";
 		}
 		return $arrByPage;
 	}
 
-	public function getCountOfPeoples(){
+	public function getAll(){
+		try {
+			$arrAll = $this->PDO->query("SELECT name,surname,group_number,score 
+				FROM students")->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			// echo $e->getMessage()."\n";
+		}
+		return $arrAll;
+	}
+
+	public function getCountOfPages(){
 		try {
 			$countOfPeoples = $this->PDO->query("SELECT COUNT(*) FROM students")->fetchAll(PDO::FETCH_ASSOC);
 		} catch(PDOException $e) {
 			// echo $e->getMessage()."\n";
 		}
-		return $countOfPeoples[0]["COUNT(*)"];
+		return ceil($countOfPeoples[0]["COUNT(*)"]/$this->countOnPage);
 	}
 }

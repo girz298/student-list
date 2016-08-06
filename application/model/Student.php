@@ -72,7 +72,7 @@ class Student{
 
 	public function setEmail($email){
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			throw new  Exception("Некорректный EMAIL");
+			throw new  Exception("Unexepted EMAIL");
 		}
 		$this->email = $email;
 	}
